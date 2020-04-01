@@ -1,0 +1,178 @@
+@import url('https://fonts.googleapis.com/css?family=Abel');
+
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+
+html {
+  font-size: 62.5%;
+  font-family: Abel, Arial, Verdana, sans-serif;
+}
+
+body {
+  background-color: #000000;
+}
+
+#covid19-data-visualization canvas {
+  height: 100vh !important;
+}
+.card {
+  width: 350px;
+  display: flex;
+  background-color: #fff;
+  background: linear-gradient(#f8f8f8, #fff);
+  box-shadow: 0 8px 16px -8px rgba(0, 0, 0, 0.4);
+  border-radius: 6px;
+  overflow: hidden;
+  position: relative;
+  margin: 1.5rem;
+  font-size: 1.6rem;
+  position: absolute;
+  font-family: Abel, Arial, Verdana, sans-serif !important;
+}
+
+.card--body-right {
+  width: 60%;
+  padding: 1.5rem;
+  color: #000000 !important;
+}
+
+.card--body-left {
+  width: 39%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: linear-gradient(#92bca6, #a2ccb6);
+}
+
+.card--body__name {
+  font-size: 2.5rem;
+  margin: 1rem 0;
+  background-color: #7ea28f;
+  font-size: 1.2rem;
+  padding: 0.4rem 1rem;
+  border-radius: 100px;
+  color: #fff;
+  text-transform: uppercase;
+  margin: 2rem 0;
+}
+
+.card--body__flag {
+  overflow: hidden;
+  width: 100%;
+}
+
+.card--body__flag-image {
+  display: block;
+  height: 70px;
+  width: 80%;
+  margin: 0 auto;
+  border: 1px solid #80a391;
+  border-radius: 6px;
+}
+
+.card--body__total-case {
+  font-size: 2.5rem;
+  margin: 1rem 0;
+  background-color: #7ea28f;
+  font-size: 1.2rem;
+  padding: 0.4rem 1rem;
+  border-radius: 100px;
+  color: #fff;
+  margin: 2rem 0;
+}
+
+.card--body-date {
+  text-align: center;
+  padding: 1rem;
+  padding-top: 0.5rem;
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.card--body__today {
+  display: flex;
+  justify-content: space-around;
+  margin: 2rem 0;
+}
+
+.card--body__total {
+  display: flex;
+  justify-content: space-evenly;
+  padding: 1.5rem;
+  margin-top: 2.7rem;
+}
+
+.card--body__total div {
+  width: 33%;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.card--body__total div:not(:last-child) {
+  border-right: 1px solid #7ea28f;
+}
+
+.card--body__total-dead span {
+  color: #cc3300;
+}
+
+.card--body__total-active span {
+  color: #ffcc00;
+}
+
+.card--body__total-recovered {
+  padding-left: 0.5rem;
+}
+
+.card--body__total-recovered span {
+  color: #339900;
+}
+
+.title-container {
+  position: absolute;
+  z-index: 1;
+  color: #fff;
+  text-align: center;
+  width: 100%;
+}
+
+.title-container h1 {
+  font-size: 3.5rem;
+  margin: 1.5rem 0;
+}
+
+.title-desc {
+  font-size: 1.6rem;
+}
+
+.bottom-info-container {
+  z-index: 1;
+  bottom: 20px;
+  position: absolute;
+  color: white;
+  text-align: center;
+  width: 100%;
+  letter-spacing: 3px;
+  font-size: 1.6rem;
+}
+
+#infected {
+  color: goldenrod;
+}
+
+#deaths {
+  color: #ff4848;
+}
+
+#recovered {
+  color: #1ae021;
+}
+
+
+/*# sourceMappingURL=/main.d2070829.css.map */

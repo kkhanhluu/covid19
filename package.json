@@ -1,0 +1,30 @@
+{
+  "name": "covid19",
+  "version": "1.0.0",
+  "description": "3D visualization of latest data regarding Coronavirus cases, provided by the World Health Organization",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "parcel index.html"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kkhanhluu/covid19.git"
+  },
+  "author": "Khanh Luu",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kkhanhluu/covid19/issues"
+  },
+  "homepage": "https://github.com/kkhanhluu/covid19#readme",
+  "dependencies": {
+    "countup.js": "^2.0.4",
+    "d3": "^5.15.1",
+    "globe.gl": "^2.8.6"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.9.0",
+    "@babel/plugin-transform-runtime": "^7.9.0",
+    "parcel-bundler": "^1.12.4"
+  }
+}
