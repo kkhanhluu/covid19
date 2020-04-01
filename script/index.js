@@ -79,8 +79,8 @@ const initData = async () => {
   world.polygonsData(countriesWithCases);
   console.log(countriesWithCases);
 
-  document.querySelector('.title-desc').textContent =
-    'Hover on a country or territory to see cases, deaths, and recoveries.';
+  document.querySelector('.title-desc').innerHTML =
+    'Hover on a country or territory to see information. Made by <a style="color: #1ae021; text-decoration:none;" target="_blank" href="https://kkhanhluu.github.io">Khanh Luu</a>';
 
   // get current IP Address
   const { longtitude, latitude } = await request(

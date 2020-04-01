@@ -96957,7 +96957,7 @@ var initData = /*#__PURE__*/function () {
             });
             world.polygonsData(countriesWithCases);
             console.log(countriesWithCases);
-            document.querySelector('.title-desc').textContent = 'Hover on a country or territory to see cases, deaths, and recoveries.'; // get current IP Address
+            document.querySelector('.title-desc').innerHTML = 'Hover on a country or territory to see information. Made by <a style="color: #1ae021; text-decoration:none;" target="_blank" href="https://kkhanhluu.github.io">Khanh Luu</a>'; // get current IP Address
 
             _context.next = 13;
             return (0, _utils.request)('https://geolocation-db.com/json/');
@@ -97035,7 +97035,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50707" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53173" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
