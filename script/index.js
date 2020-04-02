@@ -2,13 +2,14 @@ import Globe from 'globe.gl';
 import * as d3 from 'd3';
 import { CountUp } from 'countup.js';
 
-import { request } from './utils';
+import { request, isMobile } from './utils';
 import {
   GLOBAL_IMAGE_URL,
   BACKGROUND_IMAGE_URL,
   GEOJSON_URL,
   CASES_API
 } from './constants';
+import { initForm } from './form';
 
 const colorScale = d3.scaleSequentialPow(d3.interpolateOrRd).exponent(1 / 4);
 const getCase = item => item.covid.cases;
@@ -95,6 +96,8 @@ const initData = async () => {
   );
 
   showTotalCount(countriesWithCases);
+
+  initForm(countriesWithCases);
 };
 
 const init = () => {
@@ -139,21 +142,33 @@ const init = () => {
     </div>
 </div>`
     )
-    .onPolygonHover(hoverD =>
+    .onPolygonHover(hoverD => {
       world
         .polygonAltitude(d => (d === hoverD ? 0.12 : 0.06))
         .polygonCapColor(d =>
           d === hoverD ? 'steelblue' : colorScale(getCase(d))
-        )
-    )
-    .onPolygonClick(p => {
+        );
+      if (document.getElementById('card-information')) {
+        document
+          .getElementById('card-information')
+          .parentNode.removeChild(document.getElementById('card-information'));
+      }
+    })
+
+    .polygonsTransitionDuration(300);
+  const controls = world.controls();
+  controls.enableZoom = false;
+  if (isMobile()) {
+    controls.object.fov = 70;
+  } else {
+    controls.object.fov = 60;
+    world.onPolygonClick(p => {
       world.pointOfView(
         { lat: p.covid.countryInfo.lat, lng: p.covid.countryInfo.long },
         1000
       );
-    })
-    .polygonsTransitionDuration(300);
-
+    });
+  }
   initData();
 };
 
