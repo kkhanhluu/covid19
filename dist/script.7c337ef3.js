@@ -96997,6 +96997,17 @@ var init = function init() {
     var properties = _ref2.properties,
         covid = _ref2.covid;
     return "<div class=\"card\">\n    <div class=\"card--body-left\">\n        <div class=\"card--body__name\">".concat(properties.ADMIN, "</div>\n        <div class=\"card--body__flag\">\n            <img src=\"").concat(covid.countryInfo.flag, "\" alt=\"\"\n                class=\"card--body__flag-image\">\n        </div>\n        <div class=\"card--body__total-case\">").concat(covid.cases, " total cases</div>\n    </div>\n    <div class=\"card--body-right\">\n        <h4 class=\"card--body-date\">").concat(new Date().toLocaleString().split(',')[0], "</h4>\n        <div class=\"card--body__today\">\n            <p class=\"card--body__todday-cases\">").concat(covid.todayCases, " cases</p>\n            <p class=\"card--body__todday-deaths\">").concat(covid.todayDeaths, " deaths</p>\n        </div>\n        <div class=\"card--body__total\">\n            <div class=\"card--body__total-active\"> <span>").concat(covid.active, "</span> active</div>\n            <div class=\"card--body__total-dead\"><span>").concat(covid.deaths, "</span> dead</div>\n            <div class=\"card--body__total-recovered\"><span>").concat(covid.recovered, "</span> recovered</div>\n        </div>\n    </div>\n</div>");
+  }).onPolygonHover(function (hoverD) {
+    return world.polygonAltitude(function (d) {
+      return d === hoverD ? 0.12 : 0.06;
+    }).polygonCapColor(function (d) {
+      return d === hoverD ? 'steelblue' : colorScale(getCase(d));
+    });
+  }).onPolygonClick(function (p) {
+    world.pointOfView({
+      lat: p.covid.countryInfo.lat,
+      lng: p.covid.countryInfo.long
+    }, 1000);
   }).polygonsTransitionDuration(300);
   initData();
 };
@@ -97035,7 +97046,11 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
+<<<<<<< HEAD
   var ws = new WebSocket(protocol + '://' + hostname + ':' + "53451" + '/');
+=======
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51090" + '/');
+>>>>>>> develop
 
   ws.onmessage = function (event) {
     checkedAssets = {};

@@ -139,6 +139,19 @@ const init = () => {
     </div>
 </div>`
     )
+    .onPolygonHover(hoverD =>
+      world
+        .polygonAltitude(d => (d === hoverD ? 0.12 : 0.06))
+        .polygonCapColor(d =>
+          d === hoverD ? 'steelblue' : colorScale(getCase(d))
+        )
+    )
+    .onPolygonClick(p => {
+      world.pointOfView(
+        { lat: p.covid.countryInfo.lat, lng: p.covid.countryInfo.long },
+        1000
+      );
+    })
     .polygonsTransitionDuration(300);
 
   initData();
