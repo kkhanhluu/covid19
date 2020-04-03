@@ -260,6 +260,20 @@ form #country {
   background-color: #308804;
   border-color: #205c03;
 }
+@media screen and (max-width: 600px) {
+  .left-container {
+    top: 3.2rem;
+    left: 0.5rem;
+  }
+
+  .left-container a {
+    font-size: 1.1rem;
+  }
+
+  .right-container {
+    display: none;
+  }
+}
 
 
 /*# sourceMappingURL=/main.d2070829.css.map */
