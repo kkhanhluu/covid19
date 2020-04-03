@@ -92,7 +92,7 @@ const initData = async () => {
       lat: latitude,
       lng: longtitude
     },
-    1000
+    2000
   );
 
   showTotalCount(countriesWithCases);
@@ -123,7 +123,7 @@ const init = () => {
     <div class="card--body-right">
         <h4 class="card--body-date">${
           new Date().toLocaleString().split(',')[0]
-        }</h4>
+        } - Today's count</h4>
         <div class="card--body__today">
             <p class="card--body__todday-cases">${covid.todayCases} cases</p>
             <p class="card--body__todday-deaths">${covid.todayDeaths} deaths</p>
@@ -165,7 +165,7 @@ const init = () => {
     world.onPolygonClick(p => {
       world.pointOfView(
         { lat: p.covid.countryInfo.lat, lng: p.covid.countryInfo.long },
-        1000
+        2500
       );
     });
   }
