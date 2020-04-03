@@ -15,6 +15,7 @@ html {
 
 body {
   background-color: #000000;
+  overflow: hidden;
 }
 
 #covid19-data-visualization canvas {
@@ -172,6 +173,92 @@ body {
 
 #recovered {
   color: #1ae021;
+}
+
+.right-container {
+  position: absolute;
+  top: 1.5rem;
+  right: 3rem;
+  background: #000;
+  z-index: 100;
+  width: 20%;
+}
+
+form {
+  background-color: transparent;
+}
+
+form #country {
+  display: block;
+  color: #e2e3e8;
+  font-size: 1.6rem;
+  outline: none;
+  width: 100%;
+  background-color: transparent;
+  border: none;
+  border-bottom: 1px solid #75759e;
+  padding: 8px 0;
+}
+
+#country::placeholder {
+  font-family: Abel, Arial, Verdana, sans-serif;
+}
+
+.suggestion-container {
+  display: block;
+  color: white;
+  list-style: none;
+  border: 1px solid #75759e;
+  margin-top: 0.5rem;
+  border-radius: 3px;
+  font-size: 1.4rem;
+  overflow: hidden;
+}
+
+.suggestion {
+  padding: 1rem 0.5rem;
+  width: 100%;
+  border-bottom: 1px solid #75759e;
+  cursor: pointer;
+}
+
+.suggestion span {
+  border-bottom: 1px solid #fff;
+  padding-bottom: 3px;
+}
+
+.suggestion-selected {
+  background-color: #7ea28f;
+}
+
+.card-information.card {
+  position: absolute;
+  top: 4rem;
+  right: -1rem;
+}
+
+.left-container {
+  position: absolute;
+  top: 3.5rem;
+  left: 3rem;
+  background: #000;
+  z-index: 100;
+  width: 20%;
+}
+
+.left-container a {
+  color: #339900;
+  font-size: 1.6rem;
+  text-decoration: none;
+  border: 1px solid #308804;
+  padding: 1rem;
+  border-radius: 5px;
+}
+
+.left-container a:hover {
+  color: #fff;
+  background-color: #308804;
+  border-color: #205c03;
 }
 
 

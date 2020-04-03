@@ -96791,6 +96791,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.request = request;
+exports.isMobile = void 0;
 
 var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"));
 
@@ -96837,6 +96838,18 @@ function _request() {
   }));
   return _request.apply(this, arguments);
 }
+
+var isMobile = function isMobile() {
+  var check = false;
+
+  (function (a) {
+    if (/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows ce|xda|xiino/i.test(a) || /1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i.test(a.substr(0, 4))) check = true;
+  })(navigator.userAgent || navigator.vendor || window.opera);
+
+  return check;
+};
+
+exports.isMobile = isMobile;
 },{"@babel/runtime/regenerator":"node_modules/@babel/runtime/regenerator/index.js","@babel/runtime/helpers/asyncToGenerator":"node_modules/@babel/runtime/helpers/asyncToGenerator.js"}],"script/constants.js":[function(require,module,exports) {
 "use strict";
 
@@ -96852,6 +96865,102 @@ var GEOJSON_URL = 'https://raw.githubusercontent.com/nvkelso/natural-earth-vecto
 exports.GEOJSON_URL = GEOJSON_URL;
 var CASES_API = 'https://corona.lmao.ninja/countries?sort=country';
 exports.CASES_API = CASES_API;
+},{}],"script/form.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.initForm = void 0;
+
+var showTable = function showTable(data) {
+  // reset
+  document.getElementById('country').value = '';
+
+  if (document.getElementById('suggestion-container')) {
+    document.getElementById('suggestion-container').parentNode.removeChild(document.getElementById('suggestion-container'));
+  }
+
+  var card = document.createElement('div');
+  card.classList.add('card-information', 'card');
+  card.id = 'card-information';
+  card.innerHTML = "<div class=\"card--body-left\">\n        <div class=\"card--body__name\">".concat(data.properties.ADMIN, "</div>\n        <div class=\"card--body__flag\">\n            <img src=\"").concat(data.covid.countryInfo.flag, "\" alt=\"\"\n                class=\"card--body__flag-image\">\n        </div>\n        <div class=\"card--body__total-case\">").concat(data.covid.cases, " total cases</div>\n    </div>\n    <div class=\"card--body-right\">\n        <h4 class=\"card--body-date\">").concat(new Date().toLocaleString().split(',')[0], "</h4>\n        <div class=\"card--body__today\">\n            <p class=\"card--body__todday-cases\">").concat(data.covid.todayCases, " cases</p>\n            <p class=\"card--body__todday-deaths\">").concat(data.covid.todayDeaths, " deaths</p>\n        </div>\n        <div class=\"card--body__total\">\n            <div class=\"card--body__total-active\"> <span>").concat(data.covid.active, "</span> active</div>\n            <div class=\"card--body__total-dead\"><span>").concat(data.covid.deaths, "</span> dead</div>\n            <div class=\"card--body__total-recovered\"><span>").concat(data.covid.recovered, "</span> recovered</div>\n        </div>\n    </div>");
+  document.querySelector('.right-container').appendChild(card);
+};
+
+var initForm = function initForm(data) {
+  var countryInput = document.getElementById('country');
+  countryInput.addEventListener('input', function (e) {
+    e.preventDefault();
+    var text = e.target.value.trim().toLowerCase();
+
+    if (text.trim().length <= 0) {
+      if (document.getElementById('suggestion-container')) {
+        document.getElementById('suggestion-container').parentNode.removeChild(document.getElementById('suggestion-container'));
+      }
+
+      return;
+    }
+
+    if (document.getElementById('card-information')) {
+      document.getElementById('card-information').parentNode.removeChild(document.getElementById('card-information'));
+    }
+
+    var filteredData = data.filter(function (item) {
+      return item.covid.country.toLowerCase().includes(text);
+    });
+
+    if (filteredData.length === 0) {
+      return;
+    }
+
+    var suggestionContainer = document.getElementById('suggestion-container');
+
+    if (suggestionContainer) {
+      suggestionContainer.parentNode.removeChild(suggestionContainer);
+    }
+
+    suggestionContainer = document.createElement('ul');
+    suggestionContainer.id = 'suggestion-container';
+    suggestionContainer.className = 'suggestion-container';
+    var listSuggestions = filteredData.map(function (item) {
+      var countryName = item.covid.country.trim().toLowerCase();
+      var textInput = text.trim().toLowerCase();
+      var spanText = '';
+
+      if (countryName.indexOf(textInput) === 0) {
+        spanText = '<span>' + textInput + '</span>' + countryName.substring(countryName.indexOf(textInput) + textInput.length);
+      } else {
+        spanText = countryName.substring(0, countryName.indexOf(textInput)) + '<span>' + textInput + '</span>' + countryName.substring(countryName.indexOf(textInput) + textInput.length);
+      }
+
+      return "<li data-country=\"".concat(item.covid.country, "\" class=\"suggestion\">").concat(spanText, "</li>");
+    });
+    suggestionContainer.innerHTML = listSuggestions.join('');
+    document.getElementById('country-form').appendChild(suggestionContainer);
+    Array.from(document.getElementsByClassName('suggestion')).forEach(function (elem) {
+      elem.addEventListener('mouseover', function (e) {
+        e.target.classList.add('suggestion-selected');
+      });
+      elem.addEventListener('mouseout', function (e) {
+        e.target.classList.remove('suggestion-selected');
+      });
+      elem.addEventListener('click', function (e) {
+        console.log(e.target.getAttribute('data-country'));
+        var country = data.find(function (item) {
+          return item.covid.country === e.target.getAttribute('data-country');
+        });
+        console.log(country);
+        showTable(country);
+      });
+    });
+  });
+  document.getElementById('country-form').addEventListener('submit', function (e) {
+    return e.preventDefault();
+  });
+};
+
+exports.initForm = initForm;
 },{}],"script/index.js":[function(require,module,exports) {
 "use strict";
 
@@ -96872,6 +96981,8 @@ var _countup = require("countup.js");
 var _utils = require("./utils");
 
 var _constants = require("./constants");
+
+var _form = require("./form");
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
 
@@ -96971,8 +97082,9 @@ var initData = /*#__PURE__*/function () {
               lng: longtitude
             }, 1000);
             showTotalCount(countriesWithCases);
+            (0, _form.initForm)(countriesWithCases);
 
-          case 18:
+          case 19:
           case "end":
             return _context.stop();
         }
@@ -96998,17 +97110,31 @@ var init = function init() {
         covid = _ref2.covid;
     return "<div class=\"card\">\n    <div class=\"card--body-left\">\n        <div class=\"card--body__name\">".concat(properties.ADMIN, "</div>\n        <div class=\"card--body__flag\">\n            <img src=\"").concat(covid.countryInfo.flag, "\" alt=\"\"\n                class=\"card--body__flag-image\">\n        </div>\n        <div class=\"card--body__total-case\">").concat(covid.cases, " total cases</div>\n    </div>\n    <div class=\"card--body-right\">\n        <h4 class=\"card--body-date\">").concat(new Date().toLocaleString().split(',')[0], "</h4>\n        <div class=\"card--body__today\">\n            <p class=\"card--body__todday-cases\">").concat(covid.todayCases, " cases</p>\n            <p class=\"card--body__todday-deaths\">").concat(covid.todayDeaths, " deaths</p>\n        </div>\n        <div class=\"card--body__total\">\n            <div class=\"card--body__total-active\"> <span>").concat(covid.active, "</span> active</div>\n            <div class=\"card--body__total-dead\"><span>").concat(covid.deaths, "</span> dead</div>\n            <div class=\"card--body__total-recovered\"><span>").concat(covid.recovered, "</span> recovered</div>\n        </div>\n    </div>\n</div>");
   }).onPolygonHover(function (hoverD) {
-    return world.polygonAltitude(function (d) {
+    world.polygonAltitude(function (d) {
       return d === hoverD ? 0.12 : 0.06;
     }).polygonCapColor(function (d) {
       return d === hoverD ? 'steelblue' : colorScale(getCase(d));
     });
-  }).onPolygonClick(function (p) {
-    world.pointOfView({
-      lat: p.covid.countryInfo.lat,
-      lng: p.covid.countryInfo.long
-    }, 1000);
+
+    if (document.getElementById('card-information')) {
+      document.getElementById('card-information').parentNode.removeChild(document.getElementById('card-information'));
+    }
   }).polygonsTransitionDuration(300);
+  var controls = world.controls();
+  controls.enableZoom = false;
+
+  if ((0, _utils.isMobile)()) {
+    controls.object.fov = 70;
+  } else {
+    controls.object.fov = 60;
+    world.onPolygonClick(function (p) {
+      world.pointOfView({
+        lat: p.covid.countryInfo.lat,
+        lng: p.covid.countryInfo.long
+      }, 1000);
+    });
+  }
+
   initData();
 };
 
@@ -97018,7 +97144,7 @@ window.addEventListener('resize', function (event) {
   world.width([event.target.innerWidth]);
   world.height([event.target.innerHeight]);
 });
-},{"@babel/runtime/regenerator":"node_modules/@babel/runtime/regenerator/index.js","@babel/runtime/helpers/toConsumableArray":"node_modules/@babel/runtime/helpers/toConsumableArray.js","@babel/runtime/helpers/defineProperty":"node_modules/@babel/runtime/helpers/defineProperty.js","@babel/runtime/helpers/asyncToGenerator":"node_modules/@babel/runtime/helpers/asyncToGenerator.js","globe.gl":"node_modules/globe.gl/dist/globe.gl.module.js","d3":"node_modules/d3/index.js","countup.js":"node_modules/countup.js/dist/countUp.min.js","./utils":"script/utils.js","./constants":"script/constants.js"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"@babel/runtime/regenerator":"node_modules/@babel/runtime/regenerator/index.js","@babel/runtime/helpers/toConsumableArray":"node_modules/@babel/runtime/helpers/toConsumableArray.js","@babel/runtime/helpers/defineProperty":"node_modules/@babel/runtime/helpers/defineProperty.js","@babel/runtime/helpers/asyncToGenerator":"node_modules/@babel/runtime/helpers/asyncToGenerator.js","globe.gl":"node_modules/globe.gl/dist/globe.gl.module.js","d3":"node_modules/d3/index.js","countup.js":"node_modules/countup.js/dist/countUp.min.js","./utils":"script/utils.js","./constants":"script/constants.js","./form":"script/form.js"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -97046,7 +97172,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55558" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "65472" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
