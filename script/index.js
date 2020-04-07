@@ -108,8 +108,58 @@ const init = () => {
     .polygonStrokeColor(() => '#111')
     .showGraticules(false)
     .polygonCapColor((i) => colorScale(getCase(i)))
-    .polygonLabel(
-      ({ properties, covid }) => `<div class="card">
+    .onPolygonHover((hoverD) => {
+      world
+        .polygonAltitude((d) => (d === hoverD ? 0.12 : 0.06))
+        .polygonCapColor((d) =>
+          d === hoverD ? 'steelblue' : colorScale(getCase(d))
+        );
+      if (document.getElementById('card-information')) {
+        document
+          .getElementById('card-information')
+          .parentNode.removeChild(document.getElementById('card-information'));
+      }
+    })
+    .polygonsTransitionDuration(300);
+
+  const controls = world.controls();
+  if (isMobile()) {
+    controls.object.fov = 70;
+    world.polygonLabel(
+      ({ properties, covid }) => `<div class="card-mobile">
+      
+      <div class="card-mobile--body">
+        <div class="card-mobile--body-info">
+          <p class="card-title">
+            ${properties.ADMIN}
+            <img class="card-mobile-img" src="${covid.countryInfo.flag}" alt="flag" />
+          </p>
+          <p class="card-total-cases">${covid.cases} total cases</p>
+        </div>
+        <div class="card-mobile--body-today">
+          <h4>Today's count</h4>
+          <p class="card-mobile--body__todday-cases">${covid.todayCases} cases</p>
+            <p class="card-mobile--body__todday-deaths">${covid.todayDeaths} deaths</p>
+       </div>
+       <div class="card-mobile--body-stats">
+          <div class="card-mobile--body__total-active"> <span>${covid.active}</span> active</div>
+          <div class="card-mobile--body__total-dead"><span>${covid.deaths}</span> dead</div>
+          <div class="card-mobile--body__total-recovered"><span>${covid.recovered}</span> recovered</div>
+       </div>
+      </div>
+      </div>`
+    );
+  } else {
+    controls.object.fov = 60;
+    world
+      .onPolygonClick((p) => {
+        world.pointOfView(
+          { lat: p.covid.countryInfo.lat, lng: p.covid.countryInfo.long },
+          2500
+        );
+      })
+      .polygonLabel(
+        ({ properties, covid }) => `<div class="card">
     <div class="card--body-left">
         <div class="card--body__name">${covid.country}</div>
         <div class="card--body__flag">
@@ -140,33 +190,7 @@ const init = () => {
         </div>
     </div>
 </div>`
-    )
-    .onPolygonHover((hoverD) => {
-      world
-        .polygonAltitude((d) => (d === hoverD ? 0.12 : 0.06))
-        .polygonCapColor((d) =>
-          d === hoverD ? 'steelblue' : colorScale(getCase(d))
-        );
-      if (document.getElementById('card-information')) {
-        document
-          .getElementById('card-information')
-          .parentNode.removeChild(document.getElementById('card-information'));
-      }
-    })
-
-    .polygonsTransitionDuration(300);
-  const controls = world.controls();
-  if (isMobile()) {
-    controls.enableZoom = false;
-    controls.object.fov = 70;
-  } else {
-    controls.object.fov = 60;
-    world.onPolygonClick((p) => {
-      world.pointOfView(
-        { lat: p.covid.countryInfo.lat, lng: p.covid.countryInfo.long },
-        2500
       );
-    });
   }
 };
 

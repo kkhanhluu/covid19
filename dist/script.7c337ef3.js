@@ -97103,10 +97103,6 @@ var init = function init() {
     return '#111';
   }).showGraticules(false).polygonCapColor(function (i) {
     return colorScale(getCase(i));
-  }).polygonLabel(function (_ref2) {
-    var properties = _ref2.properties,
-        covid = _ref2.covid;
-    return "<div class=\"card\">\n    <div class=\"card--body-left\">\n        <div class=\"card--body__name\">".concat(covid.country, "</div>\n        <div class=\"card--body__flag\">\n            <img src=\"").concat(covid.countryInfo.flag, "\" alt=\"\"\n                class=\"card--body__flag-image\">\n        </div>\n        <div class=\"card--body__total-case\">").concat(covid.cases, " total cases</div>\n    </div>\n    <div class=\"card--body-right\">\n        <h4 class=\"card--body-date\">").concat(new Date().toLocaleString().split(',')[0], "</h4>\n        <h4>Today's count</h4>\n        <div class=\"card--body__today\">\n            <p class=\"card--body__todday-cases\">").concat(covid.todayCases, " cases</p>\n            <p class=\"card--body__todday-deaths\">").concat(covid.todayDeaths, " deaths</p>\n        </div>\n        <div class=\"card--body__total\">\n            <div class=\"card--body__total-active\"> <span>").concat(covid.active, "</span> active</div>\n            <div class=\"card--body__total-dead\"><span>").concat(covid.deaths, "</span> dead</div>\n            <div class=\"card--body__total-recovered\"><span>").concat(covid.recovered, "</span> recovered</div>\n        </div>\n    </div>\n</div>");
   }).onPolygonHover(function (hoverD) {
     world.polygonAltitude(function (d) {
       return d === hoverD ? 0.12 : 0.06;
@@ -97121,8 +97117,12 @@ var init = function init() {
   var controls = world.controls();
 
   if ((0, _utils.isMobile)()) {
-    controls.enableZoom = false;
     controls.object.fov = 70;
+    world.polygonLabel(function (_ref2) {
+      var properties = _ref2.properties,
+          covid = _ref2.covid;
+      return "<div class=\"card-mobile\">\n      \n      <div class=\"card-mobile--body\">\n        <div class=\"card-mobile--body-info\">\n          <p class=\"card-title\">\n            ".concat(properties.ADMIN, "\n            <img class=\"card-mobile-img\" src=\"").concat(covid.countryInfo.flag, "\" alt=\"flag\" />\n          </p>\n          <p class=\"card-total-cases\">").concat(covid.cases, " total cases</p>\n        </div>\n        <div class=\"card-mobile--body-today\">\n          <h4>Today's count</h4>\n          <p class=\"card-mobile--body__todday-cases\">").concat(covid.todayCases, " cases</p>\n            <p class=\"card-mobile--body__todday-deaths\">").concat(covid.todayDeaths, " deaths</p>\n       </div>\n       <div class=\"card-mobile--body-stats\">\n          <div class=\"card-mobile--body__total-active\"> <span>").concat(covid.active, "</span> active</div>\n          <div class=\"card-mobile--body__total-dead\"><span>").concat(covid.deaths, "</span> dead</div>\n          <div class=\"card-mobile--body__total-recovered\"><span>").concat(covid.recovered, "</span> recovered</div>\n       </div>\n      </div>\n      </div>");
+    });
   } else {
     controls.object.fov = 60;
     world.onPolygonClick(function (p) {
@@ -97130,6 +97130,10 @@ var init = function init() {
         lat: p.covid.countryInfo.lat,
         lng: p.covid.countryInfo.long
       }, 2500);
+    }).polygonLabel(function (_ref3) {
+      var properties = _ref3.properties,
+          covid = _ref3.covid;
+      return "<div class=\"card\">\n    <div class=\"card--body-left\">\n        <div class=\"card--body__name\">".concat(covid.country, "</div>\n        <div class=\"card--body__flag\">\n            <img src=\"").concat(covid.countryInfo.flag, "\" alt=\"\"\n                class=\"card--body__flag-image\">\n        </div>\n        <div class=\"card--body__total-case\">").concat(covid.cases, " total cases</div>\n    </div>\n    <div class=\"card--body-right\">\n        <h4 class=\"card--body-date\">").concat(new Date().toLocaleString().split(',')[0], "</h4>\n        <h4>Today's count</h4>\n        <div class=\"card--body__today\">\n            <p class=\"card--body__todday-cases\">").concat(covid.todayCases, " cases</p>\n            <p class=\"card--body__todday-deaths\">").concat(covid.todayDeaths, " deaths</p>\n        </div>\n        <div class=\"card--body__total\">\n            <div class=\"card--body__total-active\"> <span>").concat(covid.active, "</span> active</div>\n            <div class=\"card--body__total-dead\"><span>").concat(covid.deaths, "</span> dead</div>\n            <div class=\"card--body__total-recovered\"><span>").concat(covid.recovered, "</span> recovered</div>\n        </div>\n    </div>\n</div>");
     });
   }
 };
