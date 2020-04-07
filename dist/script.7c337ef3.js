@@ -96861,7 +96861,7 @@ var GLOBAL_IMAGE_URL = '//unpkg.com/three-globe/example/img/earth-night.jpg';
 exports.GLOBAL_IMAGE_URL = GLOBAL_IMAGE_URL;
 var BACKGROUND_IMAGE_URL = '//unpkg.com/three-globe/example/img/night-sky.png';
 exports.BACKGROUND_IMAGE_URL = BACKGROUND_IMAGE_URL;
-var GEOJSON_URL = 'https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_110m_admin_0_countries.geojson';
+var GEOJSON_URL = 'https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_50m_admin_0_countries.geojson';
 exports.GEOJSON_URL = GEOJSON_URL;
 var CASES_API = 'https://corona.lmao.ninja/countries?sort=country';
 exports.CASES_API = CASES_API;
@@ -96884,7 +96884,7 @@ var showTable = function showTable(data) {
   var card = document.createElement('div');
   card.classList.add('card-information', 'card');
   card.id = 'card-information';
-  card.innerHTML = "<div class=\"card--body-left\">\n        <div class=\"card--body__name\">".concat(data.properties.ADMIN, "</div>\n        <div class=\"card--body__flag\">\n            <img src=\"").concat(data.covid.countryInfo.flag, "\" alt=\"\"\n                class=\"card--body__flag-image\">\n        </div>\n        <div class=\"card--body__total-case\">").concat(data.covid.cases, " total cases</div>\n    </div>\n    <div class=\"card--body-right\">\n        <h4 class=\"card--body-date\">").concat(new Date().toLocaleString().split(',')[0], "</h4>\n        <div class=\"card--body__today\">\n            <p class=\"card--body__todday-cases\">").concat(data.covid.todayCases, " cases</p>\n            <p class=\"card--body__todday-deaths\">").concat(data.covid.todayDeaths, " deaths</p>\n        </div>\n        <div class=\"card--body__total\">\n            <div class=\"card--body__total-active\"> <span>").concat(data.covid.active, "</span> active</div>\n            <div class=\"card--body__total-dead\"><span>").concat(data.covid.deaths, "</span> dead</div>\n            <div class=\"card--body__total-recovered\"><span>").concat(data.covid.recovered, "</span> recovered</div>\n        </div>\n    </div>");
+  card.innerHTML = "<div class=\"card--body-left\">\n        <div class=\"card--body__name\">".concat(data.covid.country, "</div>\n        <div class=\"card--body__flag\">\n            <img src=\"").concat(data.covid.countryInfo.flag, "\" alt=\"\"\n                class=\"card--body__flag-image\">\n        </div>\n        <div class=\"card--body__total-case\">").concat(data.covid.cases, " total cases</div>\n    </div>\n    <div class=\"card--body-right\">\n        <h4 class=\"card--body-date\">").concat(new Date().toLocaleString().split(',')[0], "</h4>\n        <div class=\"card--body__today\">\n            <p class=\"card--body__todday-cases\">").concat(data.covid.todayCases, " cases</p>\n            <p class=\"card--body__todday-deaths\">").concat(data.covid.todayDeaths, " deaths</p>\n        </div>\n        <div class=\"card--body__total\">\n            <div class=\"card--body__total-active\"> <span>").concat(data.covid.active, "</span> active</div>\n            <div class=\"card--body__total-dead\"><span>").concat(data.covid.deaths, "</span> dead</div>\n            <div class=\"card--body__total-recovered\"><span>").concat(data.covid.recovered, "</span> recovered</div>\n        </div>\n    </div>");
   document.querySelector('.right-container').appendChild(card);
 };
 
@@ -97043,24 +97043,21 @@ var initData = /*#__PURE__*/function () {
               var indexOfCountryByISO = countries.features.findIndex(function (country) {
                 return country.properties.ISO_A2 === c.countryInfo.iso2 || country.properties.ISO_A3 === c.countryInfo.iso3;
               });
-              var indexOfContryByName = -100;
-
-              if (indexOfCountryByISO < 0) {
-                indexOfContryByName = countries.features.findIndex(function (country) {
-                  return country.properties.ADMIN.toLowerCase() === c.country;
-                });
-              }
 
               if (indexOfCountryByISO >= 0) {
                 countriesWithCases.push(_objectSpread({}, countries.features[indexOfCountryByISO], {
                   covid: c
                 }));
-              }
+              } else {
+                var indexOfContryByName = countries.features.findIndex(function (country) {
+                  return country.properties.ADMIN.toLowerCase() === c.country.toLowerCase();
+                });
 
-              if (indexOfContryByName >= 0) {
-                countriesWithCases.push(_objectSpread({}, countries.features[indexOfCountryByISO], {
-                  covid: c
-                }));
+                if (indexOfContryByName >= 0) {
+                  countriesWithCases.push(_objectSpread({}, countries.features[indexOfContryByName], {
+                    covid: c
+                  }));
+                }
               }
 
               var maxCases = Math.max.apply(Math, (0, _toConsumableArray2.default)(countriesWithCases.map(getCase)));
@@ -97099,16 +97096,13 @@ var initData = /*#__PURE__*/function () {
 
 var init = function init() {
   world = (0, _globe.default)();
-  world(document.getElementById('covid19-data-visualization')).globeImageUrl(_constants.GLOBAL_IMAGE_URL).backgroundImageUrl(_constants.BACKGROUND_IMAGE_URL).polygonAltitude(0.05).polygonSideColor(function () {
+  initData();
+  world(document.getElementById('covid19-data-visualization')).globeImageUrl(_constants.GLOBAL_IMAGE_URL).backgroundImageUrl(_constants.BACKGROUND_IMAGE_URL).polygonAltitude(0.06).polygonSideColor(function () {
     return 'rgba(0, 100, 0, 0.15)';
   }).polygonStrokeColor(function () {
     return '#111';
   }).showGraticules(false).polygonCapColor(function (i) {
     return colorScale(getCase(i));
-  }).polygonLabel(function (_ref2) {
-    var properties = _ref2.properties,
-        covid = _ref2.covid;
-    return "<div class=\"card\">\n    <div class=\"card--body-left\">\n        <div class=\"card--body__name\">".concat(properties.ADMIN, "</div>\n        <div class=\"card--body__flag\">\n            <img src=\"").concat(covid.countryInfo.flag, "\" alt=\"\"\n                class=\"card--body__flag-image\">\n        </div>\n        <div class=\"card--body__total-case\">").concat(covid.cases, " total cases</div>\n    </div>\n    <div class=\"card--body-right\">\n        <h4 class=\"card--body-date\">").concat(new Date().toLocaleString().split(',')[0], " - Today's count</h4>\n        <div class=\"card--body__today\">\n            <p class=\"card--body__todday-cases\">").concat(covid.todayCases, " cases</p>\n            <p class=\"card--body__todday-deaths\">").concat(covid.todayDeaths, " deaths</p>\n        </div>\n        <div class=\"card--body__total\">\n            <div class=\"card--body__total-active\"> <span>").concat(covid.active, "</span> active</div>\n            <div class=\"card--body__total-dead\"><span>").concat(covid.deaths, "</span> dead</div>\n            <div class=\"card--body__total-recovered\"><span>").concat(covid.recovered, "</span> recovered</div>\n        </div>\n    </div>\n</div>");
   }).onPolygonHover(function (hoverD) {
     world.polygonAltitude(function (d) {
       return d === hoverD ? 0.12 : 0.06;
@@ -97121,10 +97115,14 @@ var init = function init() {
     }
   }).polygonsTransitionDuration(300);
   var controls = world.controls();
-  controls.enableZoom = false;
 
   if ((0, _utils.isMobile)()) {
     controls.object.fov = 70;
+    world.polygonLabel(function (_ref2) {
+      var properties = _ref2.properties,
+          covid = _ref2.covid;
+      return "<div class=\"card-mobile\">\n      \n      <div class=\"card-mobile--body\">\n        <div class=\"card-mobile--body-info\">\n          <p class=\"card-title\">\n            ".concat(properties.ADMIN, "\n            <img class=\"card-mobile-img\" src=\"").concat(covid.countryInfo.flag, "\" alt=\"flag\" />\n          </p>\n          <p class=\"card-total-cases\">").concat(covid.cases, " total cases</p>\n        </div>\n        <div class=\"card-mobile--body-today\">\n          <h4>Today's count</h4>\n          <p class=\"card-mobile--body__todday-cases\">").concat(covid.todayCases, " cases</p>\n            <p class=\"card-mobile--body__todday-deaths\">").concat(covid.todayDeaths, " deaths</p>\n       </div>\n       <div class=\"card-mobile--body-stats\">\n          <div class=\"card-mobile--body__total-active\"> <span>").concat(covid.active, "</span> active</div>\n          <div class=\"card-mobile--body__total-dead\"><span>").concat(covid.deaths, "</span> dead</div>\n          <div class=\"card-mobile--body__total-recovered\"><span>").concat(covid.recovered, "</span> recovered</div>\n       </div>\n      </div>\n      </div>");
+    });
   } else {
     controls.object.fov = 60;
     world.onPolygonClick(function (p) {
@@ -97132,10 +97130,12 @@ var init = function init() {
         lat: p.covid.countryInfo.lat,
         lng: p.covid.countryInfo.long
       }, 2500);
+    }).polygonLabel(function (_ref3) {
+      var properties = _ref3.properties,
+          covid = _ref3.covid;
+      return "<div class=\"card\">\n    <div class=\"card--body-left\">\n        <div class=\"card--body__name\">".concat(covid.country, "</div>\n        <div class=\"card--body__flag\">\n            <img src=\"").concat(covid.countryInfo.flag, "\" alt=\"\"\n                class=\"card--body__flag-image\">\n        </div>\n        <div class=\"card--body__total-case\">").concat(covid.cases, " total cases</div>\n    </div>\n    <div class=\"card--body-right\">\n        <h4 class=\"card--body-date\">").concat(new Date().toLocaleString().split(',')[0], "</h4>\n        <h4>Today's count</h4>\n        <div class=\"card--body__today\">\n            <p class=\"card--body__todday-cases\">").concat(covid.todayCases, " cases</p>\n            <p class=\"card--body__todday-deaths\">").concat(covid.todayDeaths, " deaths</p>\n        </div>\n        <div class=\"card--body__total\">\n            <div class=\"card--body__total-active\"> <span>").concat(covid.active, "</span> active</div>\n            <div class=\"card--body__total-dead\"><span>").concat(covid.deaths, "</span> dead</div>\n            <div class=\"card--body__total-recovered\"><span>").concat(covid.recovered, "</span> recovered</div>\n        </div>\n    </div>\n</div>");
     });
   }
-
-  initData();
 };
 
 init(); // Responsive globe
@@ -97172,7 +97172,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53942" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52163" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

@@ -11,7 +11,7 @@ const showTable = data => {
   card.classList.add('card-information', 'card');
   card.id = 'card-information';
   card.innerHTML = `<div class="card--body-left">
-        <div class="card--body__name">${data.properties.ADMIN}</div>
+        <div class="card--body__name">${data.covid.country}</div>
         <div class="card--body__flag">
             <img src="${data.covid.countryInfo.flag}" alt=""
                 class="card--body__flag-image">
