@@ -983,7 +983,7 @@ var GLOBAL_IMAGE_URL = '//unpkg.com/three-globe/example/img/earth-night.jpg';
 exports.GLOBAL_IMAGE_URL = GLOBAL_IMAGE_URL;
 var BACKGROUND_IMAGE_URL = '//unpkg.com/three-globe/example/img/night-sky.png';
 exports.BACKGROUND_IMAGE_URL = BACKGROUND_IMAGE_URL;
-var GEOJSON_URL = 'https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_110m_admin_0_countries.geojson';
+var GEOJSON_URL = 'https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_50m_admin_0_countries.geojson';
 exports.GEOJSON_URL = GEOJSON_URL;
 var CASES_API = 'https://corona.lmao.ninja/countries?sort=country';
 exports.CASES_API = CASES_API;
@@ -1105,7 +1105,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53942" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52163" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

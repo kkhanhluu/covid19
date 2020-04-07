@@ -95,6 +95,10 @@ body {
   margin-bottom: 0.5rem;
 }
 
+h4 {
+  text-align: center;
+}
+
 .card--body__today {
   display: flex;
   justify-content: space-around;

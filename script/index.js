@@ -7,16 +7,16 @@ import {
   GLOBAL_IMAGE_URL,
   BACKGROUND_IMAGE_URL,
   GEOJSON_URL,
-  CASES_API
+  CASES_API,
 } from './constants';
 import { initForm } from './form';
 
 const colorScale = d3.scaleSequentialPow(d3.interpolateOrRd).exponent(1 / 4);
-const getCase = item => item.covid.cases;
+const getCase = (item) => item.covid.cases;
 
 let world;
 
-const showTotalCount = cases => {
+const showTotalCount = (cases) => {
   const totalActive = cases.reduce(
     (total, currentCase) => total + currentCase.covid.cases,
     0
@@ -45,32 +45,29 @@ const initData = async () => {
 
   const countriesWithCases = [];
 
-  cases.forEach(c => {
+  cases.forEach((c) => {
     const indexOfCountryByISO = countries.features.findIndex(
-      country =>
+      (country) =>
         country.properties.ISO_A2 === c.countryInfo.iso2 ||
         country.properties.ISO_A3 === c.countryInfo.iso3
     );
 
-    let indexOfContryByName = -100;
-    if (indexOfCountryByISO < 0) {
-      indexOfContryByName = countries.features.findIndex(
-        country => country.properties.ADMIN.toLowerCase() === c.country
-      );
-    }
-
     if (indexOfCountryByISO >= 0) {
       countriesWithCases.push({
         ...countries.features[indexOfCountryByISO],
-        covid: c
+        covid: c,
       });
-    }
-
-    if (indexOfContryByName >= 0) {
-      countriesWithCases.push({
-        ...countries.features[indexOfCountryByISO],
-        covid: c
-      });
+    } else {
+      const indexOfContryByName = countries.features.findIndex(
+        (country) =>
+          country.properties.ADMIN.toLowerCase() === c.country.toLowerCase()
+      );
+      if (indexOfContryByName >= 0) {
+        countriesWithCases.push({
+          ...countries.features[indexOfContryByName],
+          covid: c,
+        });
+      }
     }
 
     const maxCases = Math.max(...countriesWithCases.map(getCase));
@@ -90,7 +87,7 @@ const initData = async () => {
   world.pointOfView(
     {
       lat: latitude,
-      lng: longtitude
+      lng: longtitude,
     },
     2000
   );
@@ -102,18 +99,19 @@ const initData = async () => {
 
 const init = () => {
   world = Globe();
+  initData();
   world(document.getElementById('covid19-data-visualization'))
     .globeImageUrl(GLOBAL_IMAGE_URL)
     .backgroundImageUrl(BACKGROUND_IMAGE_URL)
-    .polygonAltitude(0.05)
+    .polygonAltitude(0.06)
     .polygonSideColor(() => 'rgba(0, 100, 0, 0.15)')
     .polygonStrokeColor(() => '#111')
     .showGraticules(false)
-    .polygonCapColor(i => colorScale(getCase(i)))
+    .polygonCapColor((i) => colorScale(getCase(i)))
     .polygonLabel(
       ({ properties, covid }) => `<div class="card">
     <div class="card--body-left">
-        <div class="card--body__name">${properties.ADMIN}</div>
+        <div class="card--body__name">${covid.country}</div>
         <div class="card--body__flag">
             <img src="${covid.countryInfo.flag}" alt=""
                 class="card--body__flag-image">
@@ -123,7 +121,8 @@ const init = () => {
     <div class="card--body-right">
         <h4 class="card--body-date">${
           new Date().toLocaleString().split(',')[0]
-        } - Today's count</h4>
+        }</h4>
+        <h4>Today's count</h4>
         <div class="card--body__today">
             <p class="card--body__todday-cases">${covid.todayCases} cases</p>
             <p class="card--body__todday-deaths">${covid.todayDeaths} deaths</p>
@@ -142,10 +141,10 @@ const init = () => {
     </div>
 </div>`
     )
-    .onPolygonHover(hoverD => {
+    .onPolygonHover((hoverD) => {
       world
-        .polygonAltitude(d => (d === hoverD ? 0.12 : 0.06))
-        .polygonCapColor(d =>
+        .polygonAltitude((d) => (d === hoverD ? 0.12 : 0.06))
+        .polygonCapColor((d) =>
           d === hoverD ? 'steelblue' : colorScale(getCase(d))
         );
       if (document.getElementById('card-information')) {
@@ -157,25 +156,24 @@ const init = () => {
 
     .polygonsTransitionDuration(300);
   const controls = world.controls();
-  controls.enableZoom = false;
   if (isMobile()) {
+    controls.enableZoom = false;
     controls.object.fov = 70;
   } else {
     controls.object.fov = 60;
-    world.onPolygonClick(p => {
+    world.onPolygonClick((p) => {
       world.pointOfView(
         { lat: p.covid.countryInfo.lat, lng: p.covid.countryInfo.long },
         2500
       );
     });
   }
-  initData();
 };
 
 init();
 
 // Responsive globe
-window.addEventListener('resize', event => {
+window.addEventListener('resize', (event) => {
   world.width([event.target.innerWidth]);
   world.height([event.target.innerHeight]);
 });
