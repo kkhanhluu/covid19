@@ -985,7 +985,7 @@ var BACKGROUND_IMAGE_URL = '//unpkg.com/three-globe/example/img/night-sky.png';
 exports.BACKGROUND_IMAGE_URL = BACKGROUND_IMAGE_URL;
 var GEOJSON_URL = 'https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_50m_admin_0_countries.geojson';
 exports.GEOJSON_URL = GEOJSON_URL;
-var CASES_API = 'https://corona.lmao.ninja/countries?sort=country';
+var CASES_API = 'https://corona.lmao.ninja/v2/countries?sort=country';
 exports.CASES_API = CASES_API;
 },{}],"script/datatable.js":[function(require,module,exports) {
 "use strict";
@@ -1105,7 +1105,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54009" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52352" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
