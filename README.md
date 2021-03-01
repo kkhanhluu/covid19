@@ -26,3 +26,6 @@ $ npm start
 - d3.js
 - CountUp.js
 - https://github.com/NovelCOVID/API
+
+# Online version 
+Go to <https://kkhanhluu.github.io/covid19/> to see the online version
