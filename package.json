@@ -19,7 +19,7 @@
   "homepage": "https://github.com/kkhanhluu/covid19#readme",
   "dependencies": {
     "countup.js": "^2.0.4",
-    "d3": "^5.15.1",
+    "d3": "^7.6.1",
     "globe.gl": "^2.8.6"
   },
   "devDependencies": {
